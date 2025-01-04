@@ -1,59 +1,191 @@
-### 此通用飞控是在上一代四旋翼螺旋桨飞控的基础上重写而来。
-### 上一代的四旋翼飞控，原理是使用cc控制转速控制器的转速，修改物理轴承螺旋桨（襟翼轴承+flap）带来的升力、反扭力，进而实现姿态闭环控制。
-### 但也因此，部署、调参 都非常麻烦，不便于复制到其它机型上，通用性差。
+<a id="readme-top"></a>
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![project_license][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-### 所以这版通用飞控便诞生了，它使用cc:vs的扩展API作为动力源，可以实现开箱即用，一键部署，十分的方便。xxx
-### 新版本不再依赖ccvs，而是将所有动力改为虚空动力(void power)mod，
-### 我的目标是使它可以模拟出各种类型的飞行器的操作手感，并具备自动驾驶、寻路、避障等基本功能。
 
-### 完整功能需要安装Kallen的MetaPhysics的扫描器API（follow模式、hms_fly模式、切换玩家名等功能需要）
-### https://github.com/KallenKas024/Metaphysics/
 
-> 特别感谢：
-@kallen 提供的metaphysics mod ： 飞控的雷达扫描器、射线检测（方块扫描器）使用了此mod提供的API
-感谢 @kallen 因我的需求增加mod功能
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs">
+  <!--此处缺个logo :)
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    !-->
+  </a>
 
-### 虚空动力mod：
-> https://github.com/dfdyz/VoidPowerMod/tree/main
+<h3 align="center">Shao's Flight Control</h3>
 
-## newVersion是新版本，重构了核心部分
-> 增加了全息显示器GUI (void power) , 动力从ccvs改为虚空动力的虚空引擎
-> 部署需要一个引擎控制器外设（只能放1个）， 还需要虚空引擎（任意数量，不需要作为外设，只要放在船上就行）
-> https://github.com/dfdyz/VoidPowerMod
+  <p align="center">
+    A powerful universal flight control designed for VS ships
+    <br />
+    <a href="https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/issues/new">Report Bug</a>
+    ·
+    <a href="https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/issues/new">Request Feature</a>
+    ·
+    <a href="">中文文档</a>
+  </p>
+</div>
 
-> 
-### 更新日志：
-* 2024/4/05 增加多旋翼模式（quadRotor）：姿态模式、定点模式
-* 2024/4/10 增加跟随模式（follow）：跟随玩家 --玩家扫描器API来自@kallen的玄学mod
-* 2024/4/20 增加定点循环模式（pointLoop）：在各目标点之间循环飞行（无避障）
-* 2024/5/25 增加星舰模式（spaceShip）：手动模式（角速度闭环+速度闭环）、定点模式（角度闭环+位置闭环）
-* 2024/5/29 增加穿越机模式（quad_FPV）：（角速度闭环）
-* 2024/5/31 增加天基炮模式（hms）：从玩家视线发射激光、检测到方块就设为目标，并将飞行器头部对准目标方块 --扫描器API来自@kallen的玄学mod
-* 2024/6/01 增加鼠标飞行模式（hms）：同天基炮模式，但增加控制器直驱
-* 2024/6/02 增加风阻、重力增强（quad_FPV）：为穿越机模式增加空气阻力模拟、重力模拟（在瓦尔基里本身重力的基础上增强）--建议来自@FEMO114
-* 2024/6/04 穿越机模式增加：辅助悬停模式（角度闭环+速度闭环）
-* 2024/6/05 增加调参系统，并制作了第一版的GUI界面
-* 2024/6/06 增加锁定模式按钮-可以在gui中切换锁定
-* 2024/6/08 增加直升机模式
-* 2024/6/09 直升机模式增加独立调参界面：可以单独设置直升机模式的各种参数、以便模拟不同类型的直升机手感
-* 2024/6/12 增加多显示器支持：增加界面管理器，可以同时连接多个显示器，共同操作飞控 --由 @siiftun1857 提出并实现（贡献代码）by @siiftun1857 
-* 2024/6/19 增加物理帧模式：区别于之前的模式，该模式下抓取物理帧作为飞控运行频率。（如果没有抓取到则启用游戏刻模式0.05s）
-* 2024/6/21 增加全角度物理化支持：现在面向任意方向物理化的载具都可以通过set_att界面修改初始朝向，获取正确的姿态解算和控制
-* 2024/6/23 增加多窗口实例：现在支持任意尺寸的显示器，分配多窗口副本
-* 2024/6/24 界面完全重写：将ATT界面作为主要界面，并增加窗口合并功能、快速调参、控制器输入状态显示等，增加色彩主题修改页面
-* 2024/6/25 增加加力燃烧模式（spaceShip）：加力燃烧模式使飞船输出的力增加-可在调参页面修改比例 --建议来自 @我不是柠檬精-_-
-* 2024/6/26 增加飞艇模式（airShip）：角度闭环(PITCH、ROLL)=0，可以操作偏航、前后、左右、上下等。类似于船舵，但可以左右平移。
-* 2024/6/27 飞艇模式增加独立调参界面
-* 2024/7/05 增加摄影机模式: 向目标飞船请求连接，同意后开启摄影机模式-可以围绕目标飞船旋转，并跟随他移动
-* 2024/7/06 星舰模式调整：悬停的力独立。现在上下喷口的力可用（跟随旋转）
-* 2024/7/08 星舰模式更新：解耦模式
-* 2024/7/20 穿越机模式增加Rate（打杆曲线、油门曲线） 同BetaFlight。现实中基于BetaFlight飞控的Rate都可以还原
-* 2024/11/1 增加虚空动力版本飞控
-* 2024/11/7 增加全息屏幕GUI(虚空动力)
-* 2024/11/15 增加全息屏火控锁定界面
-* 2024/11/16 增加飞控内置火控雷达
-* 2024/11/24 增加弹药显示、雷达目标名称、血量显示
-* 2024/12/01 增加飞船网络白名单功能
-* 2024/12/17 增加自动配平/定速巡航功能 （星舰模式）
-* 2024/12/21 增加录像和回放功能
-* 2024/12/22 增加断线重连（开机自动连接上一次连接的父级）
+<!-- ABOUT THE PROJECT -->
+## About The Project
+<!--
+此处缺张飞控的帅照 :)
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+下面翻译是百度机翻 + 手改，如有问题请指正 :)
+!-->
+This flight control's goal is to make it simulate the operational feel of various types of aircraft and have basic functions such as autonomous driving, pathfinding, and obstacle avoidance.
+
+This universal flight control is a rewrite of [the previous generation quadcopter propeller flight control](https://github.com/BetaFoprhoton/shao-s-Flight-Control-with-cc-vs/tree/oldVersion).
+The principle of the previous generation quadcopter flight control was to use [CC:Tweaked](https://github.com/cc-tweaked/CC-Tweaked) to control the speed controller, modify the lift and reverse torque brought by the physical bearing propeller (flap bearing + flap), and thus achieve closed-loop attitude control.
+However, as a result, deployment and parameter tuning are very complicated, making it difficult to replicate to other models and having poor universality.
+
+So this version of the universal flight controller was born, which uses the [CC: VS](https://github.com/TechTastic/CC-VS) extension API as its power source, can be used out of the box, deployed with just one click, and is very convenient!
+The new version no longer relies on CC: VS, but changes all power to [Void Power Mod](https://github.com/dfdyz/VoidPowerMod),
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Built With
+
+* [![Lua][Lua]][Lua-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+### Prerequisites
+Mods Required:
+
+[VS-2](https://github.com/ValkyrienSkies/Valkyrien-Skies-2),
+
+[Create](https://github.com/Creators-of-Create/Create),
+[Create: Tweaked Controllers](https://github.com/getItemFromBlock/Create-Tweaked-Controllers)
+
+[CC:Tweaked](https://github.com/cc-tweaked/CC-Tweaked),
+[CC-VS](https://github.com/TechTastic/CC-VS) (Not required for new version),
+[Void Power Mod](https://github.com/dfdyz/VoidPowerMod) (required for new version),
+[MetaPhysics](https://github.com/KallenPeng/MetaPhysics) (Follow mode, hms_fly mode, switching player names and other functions need it)
+### Installation
+Video Tutorial: [Bilibili](https://www.bilibili.com/video/BV1p1qBY7E2z/)
+
+1. A physical structure of VS (ship) is required, and  there cannot be any other controllers on it, such as [Eureka](https://github.com/ValkyrienSkies/Eureka)'s rudder
+2. Place an advanced computer on the physical structure and place a lectern controller (CTC's controller right click with vanilla lectern) next to it.
+3. Place an engine controller (the one with an arrow) anywhere next to the computer, with the arrow pointing towards the direction of your ship, and place a holographic display.
+4. Enter this in the computer:
+   ```lua
+   wget https://gitee.com/fashaodesu/shao-s-Flight-Control-with-cc-vs/raw/main/newVersion/startup.lua
+   ```
+   When Download as startup.lua appears, the download is complete, restart the computer, and the flight controller starts running.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+Under construction :)
+<!--
+未完待续
+_For more examples, please refer to the [Documentation](https://example.com)_
+!-->
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ROADMAP -->
+## Roadmap
+Under construction :)
+<!--
+开发路径规划
+- [ ] Feature 1
+- [ ] Feature 2
+- [ ] Feature 3
+    - [ ] Nested Feature
+
+See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+<!-->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!--
+### Top contributors:
+
+<a href="https://github.com/github_username/repo_name/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
+</a>
+!-->
+
+
+
+<!-- LICENSE -->
+## License
+
+MIT. See `LICENSE` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+<!--
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## Acknowledgments
+
+* []()
+* []()
+* []()
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+-->
+
+[contributors-shield]: https://img.shields.io/github/contributors/super95shao/shao-s-Flight-Control-with-cc-vs.svg?style=for-the-badge
+[contributors-url]: https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/super95shao/shao-s-Flight-Control-with-cc-vs.svg?style=for-the-badge
+[forks-url]: https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/network/members
+[stars-shield]: https://img.shields.io/github/stars/super95shao/shao-s-Flight-Control-with-cc-vs.svg?style=for-the-badge
+[stars-url]: https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/stargazers
+[issues-shield]: https://img.shields.io/github/issues/super95shao/shao-s-Flight-Control-with-cc-vs.svg?style=for-the-badge
+[issues-url]: https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/issues
+[license-shield]: https://img.shields.io/github/license/super95shao/shao-s-Flight-Control-with-cc-vs.svg?style=for-the-badge
+[license-url]: https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: images/screenshot.png
+
+[Lua]: https://img.shields.io/badge/lua-20232A?style=for-the-badge&logo=lua&logoColor=61DAFB
+[Lua-url]: https://www.lua.org/
