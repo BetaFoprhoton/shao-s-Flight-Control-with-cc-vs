@@ -12,9 +12,9 @@
 <br />
 <div align="center">
   <a href="https://github.com/super95shao/shao-s-Flight-Control-with-cc-vs">
-  <!--此处缺个logo :)
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-    !-->
+  <!--让AI画了个临时logo :) -->
+    <img src="image/temporary-logo.png" alt="Logo" width="80" height="80">
+    
   </a>
 
 <h3 align="center">Shao's Flight Control</h3>
