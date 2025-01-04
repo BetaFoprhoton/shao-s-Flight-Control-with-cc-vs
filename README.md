@@ -40,14 +40,14 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 下面翻译是百度机翻 + 手改，如有问题请指正 :)
 !-->
-This flight control's goal is to make it simulate the operational feel of various types of aircraft and have basic functions such as autonomous driving, pathfinding, and obstacle avoidance.
+This flight control's goal is to make it **simulate the operational feel of various types of aircraft** and have basic functions such as **autonomous driving**, **pathfinding**, and **obstacle avoidance**.
 
 This universal flight control is a rewrite of [the previous generation quadcopter propeller flight control](https://github.com/BetaFoprhoton/shao-s-Flight-Control-with-cc-vs/tree/oldVersion).
 The principle of the previous generation quadcopter flight control was to use [CC:Tweaked](https://github.com/cc-tweaked/CC-Tweaked) to control the speed controller, modify the lift and reverse torque brought by the physical bearing propeller (flap bearing + flap), and thus achieve closed-loop attitude control.
-However, as a result, deployment and parameter tuning are very complicated, making it difficult to replicate to other models and having poor universality.
+However, as a result, deployment and parameter tuning are **very complicated**, making it difficult to replicate to other models and **having poor universality**.
 
-So this version of the universal flight controller was born, which uses the [CC: VS](https://github.com/TechTastic/CC-VS) extension API as its power source, can be used out of the box, deployed with just one click, and is very convenient!
-The new version no longer relies on CC: VS, but changes all power to [Void Power Mod](https://github.com/dfdyz/VoidPowerMod),
+So this version of the universal flight controller was born, which uses the **[CC: VS](https://github.com/TechTastic/CC-VS) extension API** as its power source, can be used out of the box, deployed with just one click, and is **very convenient**!
+The new version no longer relies on CC: VS, but changes all power to **[Void Power Mod](https://github.com/dfdyz/VoidPowerMod).**
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -73,18 +73,18 @@ Mods Required:
 [CC:Tweaked](https://github.com/cc-tweaked/CC-Tweaked),
 [CC-VS](https://github.com/TechTastic/CC-VS) (Not required for new version),
 [Void Power Mod](https://github.com/dfdyz/VoidPowerMod) (required for new version),
-[MetaPhysics](https://github.com/KallenPeng/MetaPhysics) (Follow mode, hms_fly mode, switching player names and other functions need it)
+[MetaPhysics](https://github.com/KallenPeng/MetaPhysics) (**Follow mode, hms_fly mode, switching player names** and other functions need it)
 ### Installation
 Video Tutorial: [Bilibili](https://www.bilibili.com/video/BV1p1qBY7E2z/)
 
-1. A physical structure of VS (ship) is required, and  there cannot be any other controllers on it, such as [Eureka](https://github.com/ValkyrienSkies/Eureka)'s rudder
-2. Place an advanced computer on the physical structure and place a lectern controller (CTC's controller right click with vanilla lectern) next to it.
-3. Place an engine controller (the one with an arrow) anywhere next to the computer, with the arrow pointing towards the direction of your ship, and place a holographic display.
-4. Enter this in the computer:
-   ```lua
+1. A physical structure **(VS ship)** is required, and there **cannot** be any other controllers on it, such as **[Eureka](https://github.com/ValkyrienSkies/Eureka)'s rudder**.
+2. Place an **advanced computer** on the physical structure and place a **controller lectern block** (CTC's controller right click with vanilla lectern) next to it.
+3. Place an **engine controller** (the one with an arrow added by **Void Power Mod**) anywhere next to the computer, with the arrow pointing towards the direction of your ship, and place a **holographic display**.
+4. Enter this in the **advanced computer**:
+   ```bash
    wget https://gitee.com/fashaodesu/shao-s-Flight-Control-with-cc-vs/raw/main/newVersion/startup.lua
    ```
-   When Download as startup.lua appears, the download is complete, restart the computer, and the flight controller starts running.
+   When you see the message "**Download as startup.lua**", restart the computer, and the flight controller starts running.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
